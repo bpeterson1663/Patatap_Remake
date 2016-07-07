@@ -1,3 +1,5 @@
+
+//data for each keystroke
 var keyData = {
 	q: {
 		sound: new Howl({
@@ -23,7 +25,7 @@ var keyData = {
 		}),
 		color: '#9b59b6'
 	},
-		t: {
+	t: {
 		sound: new Howl({
   		urls: ['/vendors/sounds/dotted-spiral.mp3']
 		}),
@@ -161,27 +163,28 @@ var keyData = {
 var circles = [];
 function onKeyDown(event){
 
-  if(keyData[event.key]){
+  if(keyData[event.key]){//if key is pressed. If user presses a key not defined in keyData application will do nothing
     //creates a new point using the max width and height of the screen
     var maxPoint = new Point(view.size.width, view.size.height);
     var randomPoint= Point.random(); //generates a number between 0 and 1
-    var point = maxPoint * randomPoint;
+    var point = maxPoint * randomPoint;//creates a point between the max and the random
 
-    var newCircle = new Path.Circle(point, 500);
+    var newCircle = new Path.Circle(point, 500); //Creates a new circle 500 pixels in diameter with the cordinates from the point variable
 
-    newCircle.fillColor = keyData[event.key].color;
-    keyData[event.key].sound.play();
-    circles.push(newCircle);
+    newCircle.fillColor = keyData[event.key].color; //sets the color of the circle from the data above
+    keyData[event.key].sound.play(); //plays the sound
+    circles.push(newCircle); //stores the circle in the circles array temporary
     console.log("Point ", maxPoint);
   }
 }
 
 function onFrame(event){
+	//loops through the circles array
   for(var i = 0; i < circles.length; i++){
 
-    circles[i].fillColor.hue += 1;
-    circles[i].scale(.9);
-
+    circles[i].fillColor.hue += 1;		//changes the color of the circle
+    circles[i].scale(.9); //reduces the size of the circle each frame by 90%
+		//if the area of the circle is less than 1 px remove it from the circles array
     if(circles[i].area < 1){
       circles[i].remove();
       circles.splice(i, 1);
